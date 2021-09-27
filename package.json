@@ -2,13 +2,21 @@
   "name": "json-api-test",
   "packageManager": "yarn@3.0.1",
   "version": "1.0.0",
-  "main": "api/server.js",
+  "main": "src/server.js",
   "languageName": "node",
   "repository": "git@github.com:nekdolan/json-api-test.git",
   "author": "trinimac <trinimac@protonmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start": "node ./src/server.js",
+    "test": "jest"
+  },
   "installConfig": {
     "pnp": true
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "src": "link:./src"
   }
 }
