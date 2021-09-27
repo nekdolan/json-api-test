@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 function auth(req, res, next) {
-  const { users } = req.app.locals
+  const {users} = req.app.locals
   const apiKey = req.headers['x-api-key']
   if (!apiKey || !users.find(user => user.token === apiKey)) {
     res.status(401).end()
@@ -14,7 +14,7 @@ function auth(req, res, next) {
 app.use(express.json())
 
 app.post('/login', function (req, res) {
-  const { users } = req.app.locals
+  const {users} = req.app.locals
   const user = users.find(user => {
     return user.username === req.body.user && user.password === req.body.password
   })
@@ -32,7 +32,7 @@ app.get('/data', auth, function (req, res) {
 })
 
 module.exports = function (port, locals = {}, host = 'localhost') {
-  app.locals = { ...app.locals, ...locals }
+  app.locals = {...app.locals, ...locals}
   return app.listen(port, host, (err) => {
     if (err) {
       console.error(err)

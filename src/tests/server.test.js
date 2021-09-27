@@ -23,11 +23,11 @@ const data = [
 const port = 3000
 const getUrl = (path) => `http://localhost:${port}/${path}`
 
-describe('test api calls', function (){
+describe('test api calls', function () {
   let serverInstance
 
   beforeAll((done) => {
-    serverInstance = server(port, { users, data })
+    serverInstance = server(port, {users, data})
     serverInstance.on('listening', () => done())
     serverInstance.on('error', done)
   });
@@ -35,7 +35,8 @@ describe('test api calls', function (){
   afterAll(() => {
     try {
       serverInstance.close()
-    } catch (e) {}
+    } catch (e) {
+    }
   });
 
   test('test /login post', () => {
@@ -55,9 +56,23 @@ describe('test api calls', function (){
     })
   });
 
-  test('test /login post 401 Unauthorized', () => {
+  test.each([
+    {
+      body: {user: 'admin', password: 'Admin666'},
+      message: 'wrong password'
+    },
+    {
+      body: {user: 'admin6', password: 'Admin123'},
+      message: 'wrong user'
+    },
+    {
+      body: {},
+      message: 'empty body'
+    }
+  ])('test /login post 401 Unauthorized ($message)', ({body}) => {
     return fetch(getUrl('login'), {
       method: 'POST',
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json'
       },
